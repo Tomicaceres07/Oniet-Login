@@ -1,0 +1,30 @@
+
+* {
+    margin: 0pc;
+    padding: 0px;
+}
+
+/* Header */
+#tyc__login__header-div {
+    background-color: #212529;
+    color: white;
+}
+
+#tyc__login__logo {
+    margin: 1em;
+    width: 10em;
+}
+
+/* Main */
+main {
+    margin: 20px 0px;
+}
+
+
+/* Footer */
+#tyc__login__footer__div {
+    background-color: #212529;
+    color: white;
+    padding: 2em;
+    text-align: center;
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />	
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" />
+<link rel="stylesheet" href="login.css" media="screen">
+ 
+
+</head>
+<body class='login'>
+$(if chap-id)
+	<form name="sendin" action="$(link-login-only)" method="post" style="display: none;">
+		<p>HI</p>
+		<input type="hidden" name="username" value="user1" />
+		<input type="hidden" name="password" value="123"/>
+		<input type="hidden" name="dst" value="$(link-orig)" />
+		<input type="hidden" name="popup" value="true" />
+	</form>
+	
+	<script type="text/javascript" src="md5.js"></script>
+	<script type="text/javascript">
+
+
+	    function doLogin() {
+			console.log("Entre al doLogin");
+			let email = document.login.email.value;
+			let name = document.login.name.value;
+			let sex = document.login.sex.value;
+
+			
+			let _datos = {
+				email: email,
+				name: name, 
+				sex: sex
+			}
+			
+			console.log(_datos);
+
+			fetch('http://192.168.2.252:5000/api/add', {
+				method: "POST",
+				body: JSON.stringify(_datos),
+				headers: {"Content-type": "application/json; charset=UTF-8"}
+			})
+			.then(response => response.json()) 
+			.then(json => console.log(json))
+			.catch(err => console.log(err));
+
+			document.sendin.username.value = document.login.username.value;
+			document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+			document.sendin.submit();
+			return false;
+	    }
+	</script>
+$(endif)
+
+
+<form class="vertical-form" name="login" action="$(link-login-only)" style="min-height: 100vh;" method="post" background="#A03472"
+	$(if chap-id) onSubmit="return doLogin()" $(endif)>
+<input type="hidden" name="dst" value="$(link-orig)" />
+<input type="hidden" name="popup" value="true" />
+<div style="margin:0;padding:50;display:inline"></div>
+
+<header id="hotspot__login__header">
+	<div id="hotspot__login__header-div">
+		<img id="hotspot__login__logo" src="./image.jpg" alt="Logo">
+	</div>
+</header>
+<center>
+	<div id="box">
+		<h2 class="hotspot__login__box-h2">Login</h2>
+		<div><input id="user" autocomplete="on" name="username" type="text" value="user1" placeholder="Username" style="display: none;"/></div>
+		<div><input id="pass" autocomplete="off" name="password" type="password" value="123" label="false" placeholder="Password" style="display: none;"/></div>
+
+		<div style="margin: 10px 0px;">
+			<input id="email" autocomplete="on" name="email" type="email" placeholder="Email" required/>
+		</div>
+		<div style="margin: 10px 0px;">
+			<input id="name" autocomplete="on" name="name" type="text" placeholder="Nombre" required/>
+		</div>
+		<div style="margin: 10px 0px;">
+			<select id="sex" name="sex" required>
+				<option class="sex-option" value="no-especificado" >Sexo</option>
+				<option class="sex-option" value="hombre" >Masculino</option>
+				<option class="sex-option" value="mujer" >Femenino</option>
+			</select>
+		</div>
+		<div style="margin: 20px 0;">
+			<input type="checkbox" id="checkbox" value="second_checkbox" required> 
+			<label for="checkbox">Acepto los <a id="link-terms-and-conditions" href="/termsandconditions.html" target="_blank">Términos y Condiciones*</a></label>
+		</div>
+		<div>
+			<input class="boton" name="submit" type="submit" value="Entrar" />
+		</div>
+	</div>
+</center>
+
+
+
+
+<div class='footer'>
+<p>$(if trial == 'yes')Free trial available, <a href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)">click here</a>.$(endif)</p>
+<p>$(if error)<span style="color: #ffffff; font-size: 16px">$(error)</span>$(endif)</p>
+<br>
+<p>
+</p>
+</div>
+<footer>
+	<div id="hotspot__login__footer__div">
+		Desarrollado por Basa2 Team :).
+	</div>
+</footer>
+</form>
+
+<script type="text/javascript">
+  document.login.username.focus();
+</script>
+<script type="text/javascript">
+document.oncontextmenu = function(){return false;}
+</script>
+</body>
+</html>
