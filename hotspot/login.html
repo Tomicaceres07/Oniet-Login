@@ -5,7 +5,7 @@
 <title>Login</title>
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />	
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <link rel="stylesheet" href="login.css" media="screen">
  
 
@@ -23,9 +23,7 @@ $(if chap-id)
 	<script type="text/javascript" src="md5.js"></script>
 	<script type="text/javascript">
 
-
-	    function doLogin() {
-			console.log("Entre al doLogin");
+		const doPost = () => {
 			let email = document.login.email.value;
 			let name = document.login.name.value;
 			let sex = document.login.sex.value;
@@ -39,7 +37,7 @@ $(if chap-id)
 			
 			console.log(_datos);
 
-			fetch('http://192.168.2.252:5000/api/add', {
+			fetch('http://192.168.2.251/api/add', {
 				method: "POST",
 				body: JSON.stringify(_datos),
 				headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -47,10 +45,40 @@ $(if chap-id)
 			.then(response => response.json()) 
 			.then(json => console.log(json))
 			.catch(err => console.log(err));
+		}
 
-			document.sendin.username.value = document.login.username.value;
-			document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
-			document.sendin.submit();
+	    function doLogin () {
+			console.log("Entre al doLogin");
+			
+			// const res = await doPost();
+			// console.log(res);
+
+			let email = document.login.email.value;
+			let name = document.login.name.value;
+			let sex = document.login.sex.value;
+
+			
+			let _datos = {
+				email: email,
+				name: name, 
+				sex: sex
+			}
+			
+			console.log(_datos);
+
+			fetch('http://192.168.2.251/api/add', {
+				method: "POST",
+				body: JSON.stringify(_datos),
+				headers: {"Content-type": "application/json; charset=UTF-8"}
+			})
+			.then(response => response.json()) 
+			.then(json => {
+				console.log(json)
+				document.sendin.username.value = document.login.username.value;
+				document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+				document.sendin.submit();
+			})
+			.catch(err => console.log(err));
 			return false;
 	    }
 	</script>
